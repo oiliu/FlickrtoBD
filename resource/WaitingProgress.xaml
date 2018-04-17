@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="BaiduImgDemo.WaitingProgress"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Storyboard x:Key="waiting" Name="waiting">
+            <DoubleAnimation Storyboard.TargetName="SpinnerRotate" 
+                             Storyboard.TargetProperty="(RotateTransform.Angle)" 
+                             From="0" To="359" Duration="0:0:02" 
+                             RepeatBehavior="Forever" />
+        </Storyboard>
+    </UserControl.Resources>
+    <!--<Grid x:Name="image" Loaded="Image_Loaded_1" Margin="50">
+        <Canvas x:Name="PART_Canvas0" Opacity="1.0" Width="15" Height="15">
+            <Path Stroke="Red" StrokeThickness="10">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Transform>
+                            <TranslateTransform X="20" Y="-20"/>
+                        </PathGeometry.Transform>
+                        <PathGeometry.Figures>
+                            <PathFigureCollection>
+                                <PathFigure StartPoint="0,0">
+                                    <PathFigure.Segments>
+                                        <PathSegmentCollection>
+                                            <ArcSegment Size="40,40" IsLargeArc="True" SweepDirection="CounterClockwise" Point="40,40" />
+                                        </PathSegmentCollection>
+                                    </PathFigure.Segments>
+                                </PathFigure>
+                            </PathFigureCollection>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+        <Canvas x:Name="PART_Canvas1" Opacity="0.3" Width="15" Height="15">
+            <Path Stroke="Green" StrokeThickness="10">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Transform>
+                            <TranslateTransform X="-7" Y="7"/>
+                        </PathGeometry.Transform>
+                        <PathGeometry.Figures>
+                            <PathFigureCollection>
+                                <PathFigure StartPoint="0,0">
+                                    <PathFigure.Segments>
+                                        <PathSegmentCollection>
+                                            <ArcSegment Size="30,30" IsLargeArc="True" SweepDirection="Clockwise" Point="40,40" />
+                                        </PathSegmentCollection>
+                                    </PathFigure.Segments>
+                                </PathFigure>
+                            </PathFigureCollection>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+        <Grid.LayoutTransform>
+            <RotateTransform x:Name="SpinnerRotate" Angle="0"/>
+        </Grid.LayoutTransform>
+    </Grid>-->
+
+    <Image Name="image" Source="loading.png" Width="25" Height="25"
+           RenderTransformOrigin="0.5,0.5"
+           Stretch="Fill"  Loaded="Image_Loaded_1">
+        <Image.RenderTransform>
+            <RotateTransform x:Name="SpinnerRotate" Angle="0" />
+        </Image.RenderTransform>
+    </Image>
+</UserControl>

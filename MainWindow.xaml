@@ -85,9 +85,11 @@
                 <ListBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <Grid>
+                            <local:WaitingProgress />
                             <Image HorizontalAlignment="Center" VerticalAlignment="Center" 
                                    ToolTip="{Binding Desc}" Margin="5" 
-                                   Source="{Binding Image_data,IsAsync=True}" Grid.Row="1" 
+                                   local:ImageDecoder.Source="{Binding Image_data}"
+                                    Grid.Row="1" 
                                    Width="{Binding Thumbnail_width}" 
                                    Height="{Binding Thumbnail_height}" />
                         </Grid>
@@ -102,10 +104,9 @@
         </Grid>
         <Border Visibility="Visible" BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="1" Grid.RowSpan="2"/>
         <Border BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="0,0,0,1"/>
-        <loading:LoadingIndicator Width="60" Height="60" SpeedRatio="0.6"  Grid.Row="3"
-                                  IsActive="{Binding LoadingActive}"
-                                  Style="{StaticResource LoadingIndicatorFlipPlaneStyleKey}" 
-                                  Foreground="#EDC87E"/>
+        <loading:LoadingIndicator Style="{DynamicResource LoadingIndicatorFlipPlaneStyle}" 
+                                  IsActive="{Binding LoadingActive}" 
+                                  Background="#002D85" Grid.RowSpan="3" />
         <!-- 预览 begin -->
         <Border Grid.RowSpan="3" Visibility="{Binding PreviewStatus}">
             <Grid>
