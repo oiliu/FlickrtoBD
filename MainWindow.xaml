@@ -1,0 +1,139 @@
+﻿<Window x:Class="BaiduImgDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BaiduImgDemo"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:loading="clr-namespace:LoadingIndicators.WPF;assembly=LoadingIndicators.WPF"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/BaiduImgDemo;component/resource/ButtonResources.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/BaiduImgDemo;component/resource/RadiobuttonResources.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingFlipPlane.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="BorderDefaultBrush" Color="#4444F4"/>
+            <sys:Double x:Key="DefaultTitleRowHeight">40</sys:Double>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Background="#003F9A">
+            <StackPanel Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="百度图片" FontSize="20" VerticalAlignment="Center" Foreground="White" FontFamily="微软雅黑" />
+                <TextBlock Text=" - 分类搜索" VerticalAlignment="Bottom" Foreground="White" FontFamily="微软雅黑" />
+            </StackPanel>
+            <Button Panel.ZIndex="99" Content="x" 
+                    FontSize="23" 
+                    Foreground="White" 
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Command="{Binding CloseCmd}" 
+                    Height="40" Width="55" 
+                    Style="{StaticResource CloseButton}" />
+        </Grid>
+        <Grid Grid.Row="1" Background="#002d85">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="0" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <ComboBox SelectedIndex="0">
+                    <ComboBoxItem>10</ComboBoxItem>
+                    <ComboBoxItem>20</ComboBoxItem>
+                    <ComboBoxItem>30</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Width="1920">
+                <RadioButton Content="明星" Command="{Binding TitleFilterCmd}" CommandParameter="明星" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" />
+                <RadioButton Content="美女" Command="{Binding TitleFilterCmd}" CommandParameter="美女" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" />
+                <RadioButton Content="壁纸" Command="{Binding TitleFilterCmd}" CommandParameter="壁纸" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" />
+                <RadioButton Content="搞笑" Command="{Binding TitleFilterCmd}" CommandParameter="搞笑" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" />
+                <RadioButton Content="儿童文艺" Command="{Binding TitleFilterCmd}" CommandParameter="儿童文艺" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" />
+                <RadioButton Content="动漫" Command="{Binding TitleFilterCmd}" CommandParameter="动漫" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" />
+                <RadioButton Content="宠物" Command="{Binding TitleFilterCmd}" CommandParameter="宠物" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" />
+                <RadioButton Content="摄影" Command="{Binding TitleFilterCmd}" CommandParameter="摄影" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" />
+                <RadioButton Content="设计" Command="{Binding TitleFilterCmd}" CommandParameter="设计" Style="{StaticResource TitleFilterButtonStyle}" GroupName="titleFilter" IsChecked="True" />
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="20,0,0,0">
+                    <Button Style="{StaticResource PageButton}" Content="上一页" Command="{Binding PageCmd}" CommandParameter="0" />
+                    <Button Style="{StaticResource PageButton}" Content="下一页" Command="{Binding PageCmd}" CommandParameter="1"/>
+                </StackPanel>
+            </StackPanel>
+            <Button Grid.Column="2" >
+
+            </Button>
+        </Grid>
+        <Grid Background="#006EDD" Grid.Row="2">
+            <ListBox Background="#006EDD" ItemsSource="{Binding SingleList}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectedItem="{Binding SelectedPreview}" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding PreviewShowCmd}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Grid>
+                            <Image HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                   ToolTip="{Binding Desc}" Margin="5" 
+                                   Source="{Binding Image_data,IsAsync=True}" Grid.Row="1" 
+                                   Width="{Binding Thumbnail_width}" 
+                                   Height="{Binding Thumbnail_height}" />
+                        </Grid>
+                    </ItemContainerTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </Grid>
+        <Border Visibility="Visible" BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="1" Grid.RowSpan="2"/>
+        <Border BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="0,0,0,1"/>
+        <loading:LoadingIndicator Width="60" Height="60" SpeedRatio="0.6"  Grid.Row="3"
+                                  IsActive="{Binding LoadingActive}"
+                                  Style="{StaticResource LoadingIndicatorFlipPlaneStyleKey}" 
+                                  Foreground="#EDC87E"/>
+        <!-- 预览 begin -->
+        <Border Grid.RowSpan="3" Visibility="{Binding PreviewStatus}">
+            <Grid>
+                <Border Background="#dddd" Opacity="0.6"/>
+                <Grid Margin="80" x:Name="BorderPreview">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Panel.ZIndex="99" Background="#002d85">
+                        <Button Content="x" 
+                            FontSize="23" 
+                            Foreground="White" 
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Command="{Binding PreviewBtnCmd}" 
+                            Height="40" Width="55" 
+                            Style="{StaticResource CloseButton}" />
+                    </Grid>
+                    <Grid Background="#006EDD" Grid.Row="1">
+                        <Viewbox>
+                            <Image Source="{Binding SelectedPreview.Image_data}" />
+                        </Viewbox>
+                    </Grid>
+                    <Border BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="1" Grid.RowSpan="2"/>
+                </Grid>
+            </Grid>
+        </Border>
+        <!-- 预览 end-->
+    </Grid>
+</Window>
