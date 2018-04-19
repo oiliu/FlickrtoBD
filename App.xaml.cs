@@ -13,5 +13,17 @@ namespace BaiduImgDemo
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            try
+            {
+                FileHelper.DeleteFile();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("异常：" + ex.Message);
+            }
+        }
     }
 }

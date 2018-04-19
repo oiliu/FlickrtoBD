@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace BaiduImgDemo
@@ -26,13 +27,15 @@ namespace BaiduImgDemo
                 {
                     if (!string.IsNullOrEmpty(o.image_url))
                     {
+                        BitmapImage bit = new BitmapImage(new Uri(o.image_url, UriKind.RelativeOrAbsolute));
                         instance.SingleList.Add(
                             new singleClassForPage()
                             {
                                 Desc = o.desc,
-                                Image_data = new BitmapImage(new Uri(o.image_url, UriKind.RelativeOrAbsolute)),
-                                Thumbnail_height = 60,//o.thumbnail_height,
-                                Thumbnail_width = 60//o.thumbnail_width
+                                Image_data = bit,
+                                Thumbnail_height = 60,  //220,250
+                                Thumbnail_width = 60,
+                                Image_url = o.image_url
                             });
                     }
                 });
@@ -41,7 +44,11 @@ namespace BaiduImgDemo
             LoadingActive = false;
         }
 
-
+        SolidColorBrush GetAverageColor(BitmapImage bitm)
+        {
+            BitmapPixelHelper p = new BitmapPixelHelper(bitm);
+            return new SolidColorBrush(p.GetAverageColor());
+        }
 
         public ObservableCollection<singleClassForPage> SingleList
         {
@@ -154,5 +161,25 @@ namespace BaiduImgDemo
             }
         }
 
+        public void GetAverageColorByLocalFile()
+        {
+            singleClassForPage o = SelectedPreview;
+            string localName = "";
+            if (GlobalImageList.instance.ImageList.Count > 0 && o != null)
+            {
+                localName = GlobalImageList.instance.ImageList.Where(j => j.Item1 == ImageSave.GetFileName(o.Image_url)).LastOrDefault().Item2;
+            }
+
+            try
+            {
+                BitmapImage bit = new BitmapImage(new Uri(localName, UriKind.RelativeOrAbsolute));
+                SolidColorBrush s = GetAverageColor(bit);
+                SelectedPreview.BackGround = s;
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

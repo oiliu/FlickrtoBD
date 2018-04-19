@@ -34,17 +34,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LoadingIndicators.WPF">
-      <HintPath>dll\LoadingIndicators.WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,8 +65,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="common\FileHelper.cs" />
+    <Compile Include="common\GlobalImageList.cs" />
+    <Compile Include="common\ImageSave.cs" />
     <Compile Include="common\LoadDataCommon.cs" />
     <Compile Include="common\ConfigHelper.cs" />
+    <Compile Include="common\preview\PreviewCommon.cs" />
     <Compile Include="common\queueImg\ImageDecoder.cs" />
     <Compile Include="common\queueImg\ImageQueue.cs" />
     <Compile Include="data\singleClassForPage.cs" />
@@ -74,6 +79,9 @@
     </Compile>
     <Compile Include="resource\Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TipMessageBox.xaml.cs">
+      <DependentUpon>TipMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="vm\MainVm.cs" />
     <Compile Include="vm\MainVm_extendtion.cs" />
@@ -108,6 +116,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TipMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -123,11 +135,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="ReadMe.txt" />
     <Resource Include="resource\loading.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="favicon.ico" />
     <Content Include="Config.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -146,7 +160,12 @@
       <Project>{6627DB04-7A52-47F1-A550-9E367F528983}</Project>
       <Name>CommonPublic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoadingIndicators.WPF\LoadingIndicators.WPF.csproj">
+      <Project>{e49229cc-d702-478f-90e0-6e1a284272f6}</Project>
+      <Name>LoadingIndicators.WPF</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

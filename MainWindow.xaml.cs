@@ -26,6 +26,16 @@ namespace BaiduImgDemo
         {
             InitializeComponent();
             this.DataContext = MainVm.instance;
+            this.MouseWheel += MainWindow_MouseWheel;
+        }
+        MainVm mainVm;
+        private void MainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (this.DataContext != null)
+            {
+                mainVm = DataContext as MainVm;
+            }
+            PreviewCommon.MouseWheelFunc(mainVm, e.Delta);
         }
     }
 }

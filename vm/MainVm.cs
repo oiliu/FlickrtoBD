@@ -92,6 +92,29 @@ namespace BaiduImgDemo
                 });
             }
         }
+
+        public baseCmd CopyColorStrCmd
+        {
+            get
+            {
+                return new baseCmd(() =>
+                {
+                    Clipboard.SetDataObject(SelectedPreview.BackGroundStr, true);
+                    TipMessageBox.Show("已经复制到剪贴板");
+                });
+            }
+        }
+
+        public baseCmd MinCmd
+        {
+            get
+            {
+                return new baseCmd(() =>
+                {
+                    Application.Current.MainWindow.WindowState = WindowState.Minimized;
+                });
+            }
+        }
         public baseCmd CloseCmd
         {
             get

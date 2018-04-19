@@ -8,6 +8,7 @@
         xmlns:loading="clr-namespace:LoadingIndicators.WPF;assembly=LoadingIndicators.WPF"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:pre="http://schemas.microsoft.com/netfx/2007/xaml/presentation"
         mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
@@ -15,10 +16,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/BaiduImgDemo;component/resource/ButtonResources.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/BaiduImgDemo;component/resource/RadiobuttonResources.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingFlipPlane.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingThreeDots.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="BorderDefaultBrush" Color="#4444F4"/>
             <sys:Double x:Key="DefaultTitleRowHeight">40</sys:Double>
+            <pre:SolidColorBrush x:Key="lightGreen" >#00A408</pre:SolidColorBrush>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -32,8 +34,16 @@
                 <TextBlock Text="百度图片" FontSize="20" VerticalAlignment="Center" Foreground="White" FontFamily="微软雅黑" />
                 <TextBlock Text=" - 分类搜索" VerticalAlignment="Bottom" Foreground="White" FontFamily="微软雅黑" />
             </StackPanel>
+            <Button Panel.ZIndex="99" Content="-" 
+                    FontSize="23"  Margin="0,0,55,0"
+                    Foreground="White" 
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Command="{Binding MinCmd}" 
+                    Height="40" Width="55" 
+                    Style="{StaticResource MinButton}" />
             <Button Panel.ZIndex="99" Content="x" 
-                    FontSize="23" 
+                    FontSize="23"
                     Foreground="White" 
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right"
@@ -74,7 +84,7 @@
             </Button>
         </Grid>
         <Grid Background="#006EDD" Grid.Row="2">
-            <ListBox Background="#006EDD" ItemsSource="{Binding SingleList}"
+            <ListBox Background="#006EDD" ItemsSource="{Binding SingleList}" HorizontalAlignment="Center"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectedItem="{Binding SelectedPreview}" >
                 <i:Interaction.Triggers>
@@ -104,9 +114,9 @@
         </Grid>
         <Border Visibility="Visible" BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="1" Grid.RowSpan="2"/>
         <Border BorderBrush="{StaticResource BorderDefaultBrush}" BorderThickness="0,0,0,1"/>
-        <loading:LoadingIndicator Style="{DynamicResource LoadingIndicatorFlipPlaneStyle}" 
-                                  IsActive="{Binding LoadingActive}" 
-                                  Background="#002D85" Grid.RowSpan="3" />
+        <loading:LoadingIndicator Style="{DynamicResource LoadingIndicatorThreeDotsStyleKey}" 
+                                  IsActive="{Binding LoadingActive}"                                   
+                                  Foreground="{StaticResource lightGreen}" Grid.RowSpan="3" />
         <!-- 预览 begin -->
         <Border Grid.RowSpan="3" Visibility="{Binding PreviewStatus}">
             <Grid>
@@ -117,6 +127,16 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid Panel.ZIndex="99" Background="#002d85">
+                        <TextBlock Cursor="Hand" Text="{Binding SelectedPreview.BackGroundStr}" HorizontalAlignment="Left" Foreground="White" 
+                                   VerticalAlignment="Center" Margin="10,0,0,0" Width="100">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding CopyColorStrCmd}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+                        <TextBlock Text="{Binding SelectedPreview.Desc}" Foreground="White" 
+                                   VerticalAlignment="Center" Margin="100,0,0,0" />
                         <Button Content="x" 
                             FontSize="23" 
                             Foreground="White" 
@@ -126,7 +146,7 @@
                             Height="40" Width="55" 
                             Style="{StaticResource CloseButton}" />
                     </Grid>
-                    <Grid Background="#006EDD" Grid.Row="1">
+                    <Grid Background="{Binding SelectedPreview.BackGround}" Grid.Row="1">
                         <Viewbox>
                             <Image Source="{Binding SelectedPreview.Image_data}" />
                         </Viewbox>

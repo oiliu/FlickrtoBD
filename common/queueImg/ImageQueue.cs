@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Threading;
 using System.IO;
+using System.Windows.Media;
 
 namespace BaiduImgDemo
 {
@@ -79,14 +80,16 @@ namespace BaiduImgDemo
                         }
                         if (image != null)
                         {
-                            if (image.CanFreeze) image.Freeze();
-                            t.image.Dispatcher.BeginInvoke(new Action<ImageQueueInfo, BitmapImage>((i, bmp) => 
+                            if (image.CanFreeze)
+                                image.Freeze();
+                            t.image.Dispatcher.BeginInvoke(new Action<ImageQueueInfo, BitmapImage>((i, bmp) =>
                             {
                                 ImageQueue.OnComplate?.Invoke(i.image, i.url, bmp);
-                            }),new Object[] { t, image });
+                            }), new Object[] { t, image });
+                            ImageSave.Save(t.url, image);
                         }
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         continue;
                     }
